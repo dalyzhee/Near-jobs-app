@@ -1,10 +1,12 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::near_bindgen;
-// use near_sdk::serde::Serialize;
+use near_sdk::serde::*;
 use near_sdk::env;
 
-#[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize)]
+// #[near_bindgen]
+pub use std::fmt::format;
+#[derive(Default, BorshDeserialize, BorshSerialize, Debug, Serialize, Deserialize)]
+#[serde(crate="near_sdk::serde")]
 pub struct Job {
     title: String,
     description: String,
@@ -22,7 +24,6 @@ pub struct JobsMarket {
 
 #[near_bindgen]
 impl JobsMarket {
-    // ADD CONTRACT METHODS HERE
     #[init]
     pub fn new_job() -> Self{
         let jobs: Vec<Job> = Vec::new();
@@ -86,32 +87,34 @@ mod tests {
     }
 
     // TESTS HERE
+    // A test for the existence of a job in the vector.
     #[test]
     fn job_existence(){
-        let user = AccountId::new_unchecked("dalyzhee.testnat".to_string());
+        let user = AccountId::new_unchecked("leviso.testnet".to_string());
         let _context = get_context(user.clone());
         let mut job = JobsMarket::new_job();
-        job.add_job("software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
+        job.add_job("software".to_string(), "software".to_string(), "software".to_string(), "10/2/2022".to_string(), "google@gmail.com".to_string(), "google".to_string());
         let counting = job.job_count();
         assert_eq!(counting, 1);
     }
     #[test]
     fn add_job(){
-        let user = AccountId::new_unchecked("dalyzhee.testnat".to_string());
+        let user = AccountId::new_unchecked("leviso.testnet".to_string());
         let _context = get_context(user.clone());
 
         let mut job = JobsMarket::new_job();
         
-        job.add_job("software engineer".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
-        job.add_job("web developer".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
-        job.add_job("designer".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
+        job.add_job("software engineer".to_string(), "software all the time".to_string(), "nairobi".to_string(), "10/2/2022".to_string(), "google@gmail.com".to_string(), "google".to_string());
+        job.add_job("web developer".to_string(), "software always".to_string(), "kisumu".to_string(), "10/3/2022".to_string(), "andela@gmail.com".to_string(), "andela".to_string());
+        job.add_job("designer".to_string(), "software love".to_string(), "nairobi".to_string(), "20/3/2022".to_string(), "turnkey@gmail.com".to_string(), "turnkey".to_string());
         let counts = job.job_count();
         assert_eq!(counts, 3);
     }
 
+    // Test for getting data from vector
     #[test]
     fn get_job(){
-        let user = AccountId::new_unchecked("dalyzhee.testnat".to_string());
+        let user = AccountId::new_unchecked("leviso.testnet".to_string());
         let _context = get_context(user.clone());
         let mut job = JobsMarket::new_job();
         job.add_job("software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
@@ -119,9 +122,10 @@ mod tests {
         assert_eq!(counts.len(), 1);
     }
 
+    // test for the delete of job from vector
     #[test]
     fn delete_job(){
-        let user = AccountId::new_unchecked("dalyzhee.testnat".to_string());
+        let user = AccountId::new_unchecked("leviso.testnet".to_string());
         let _context = get_context(user.clone());
         let mut job = JobsMarket::new_job();
         job.add_job("software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string(), "software".to_string());
