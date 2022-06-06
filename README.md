@@ -32,7 +32,7 @@ The test are:
 near call leviso.testnet job_count --accountId youraccount.testnet
 
 ##  adding job to the vector 
-near call leviso.testnet add_job '{"title": "some todo value"}' --accountId youraccount.testnet
+near call leviso.testnet add_job '{"title": "software", "description": "software", "location": "nairobi", "date": "ten", "email": "dalmas", "company": "andela"}'  --accountId youraccount.testnet
 
 ##  displaying the jobs available 
 near call leviso.testnet show_job --accountId youraccount.testnet
